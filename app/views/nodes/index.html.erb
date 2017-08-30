@@ -1,0 +1,53 @@
+<h2>Nodes</h2>
+<div>
+  <% @nodes.each do |node| %>
+    <div class="offset">
+      <%= node %>
+    </div>
+    <% if node.children %>
+      <% node.children.each do |child| %>
+        <div class="tab">
+          <%= child %>
+        </div>
+        <% if child.children %>
+          <% child.children.each do |c| %>
+          <div class="double-tab">
+            <%= c %>
+          </div>
+          <% if c.children %>
+            <% c.children.each do |d| %>
+              <div class="triple-tab">
+                <%= d %>
+              </div>
+            <% end %>
+          <% end %>
+          <div class="triple-tab">
+            <%= form_tag('/nodes') do -%>
+              <%= text_field_tag(:name) %>
+              <%= hidden_field_tag(:parent_id, c.id) %>
+              <%= submit_tag("+") %>
+            <% end -%>
+          </div>
+          <br />
+          <% end %>
+        <% end %>
+        <div class="double-tab">
+          <%= form_tag('/nodes') do -%>
+            <%= text_field_tag(:name) %>
+            <%= hidden_field_tag(:parent_id, child.id) %>
+            <%= submit_tag("+") %>
+          <% end -%>
+        </div>
+        <br />
+      <% end %>
+      <div class="tab">
+        <%= form_tag('/nodes') do -%>
+          <%= text_field_tag(:name) %>
+          <%= hidden_field_tag(:parent_id, node.id) %>
+          <%= submit_tag("+") %>
+        <% end -%>
+      </div>
+    <% end %>
+    <br />
+  <% end %>
+</div>
